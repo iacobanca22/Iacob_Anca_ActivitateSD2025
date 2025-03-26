@@ -18,5 +18,8 @@
     <ClCompile Include="conectare git.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EXERCITIU1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

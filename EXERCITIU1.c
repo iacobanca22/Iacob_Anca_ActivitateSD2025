@@ -29,6 +29,7 @@
 //5. Realizez o functie care va modifica parametri necesari in cazul in care o familie se muta, parametrul constant fiind nrApartament
 #include< stdio.h>
 #include<stdlib.h>
+#include<malloc.h>
 struct Familie {
 	int nrMembri;
 	int nrApartament;
@@ -61,12 +62,12 @@ void dezalocare(struct Familie* f) {
 		f->nume = NULL;
 	}
 }
-float SumaPlata(struct Familie )
+
 int main()
 {
 	struct Familie f;
 	f = initializare(3,25,"Mihai",452.96);
 	afisare(f);
-	
-	return 1;
+	dezalocare(&f);
+    return 0;
 }
