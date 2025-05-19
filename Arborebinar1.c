@@ -188,6 +188,62 @@ float calculeazaPretulMasinilorUnuiSofer(/*arbore de masini*/ const char* numeSo
 	//calculeaza pretul tuturor masinilor unui sofer.
 	return 0;
 }
+//Sa se stearga un nod pentru care se primeste id-ul de cautare. Dupa stergere nodul
+//trebuie sa isi pastreze proprietatea de Arbore Binar de Cautare.
+
+Nod* stergereNoddupaId(Nod** rad, int id) {
+	//verific daca nodul transmis e frunza atunci stergerea lui nu va influenta arborele
+	if (*rad == NULL)return rad;
+	if (&(*rad)->infoUtil.id > id)stergereNoddupaId(&(*rad)->FiuStang, id);
+	else
+		if (&(*rad)->infoUtil.id < id)stergereNoddupaId(&(*rad)->FiuDrept, id);
+		else {// am gasit nodul
+			// verific daca are fiu stang egal cu NUll, daca are fiu drept  e frunza
+			if (&(*rad)->FiuDrept == NULL) {
+				Nod* t = (*rad)->FiuDrept; //shallow copy
+				free(rad);
+				return t;
+			}
+				/*Nod* temp = (Nod*)malloc(sizeof(Nod));
+				temp=(*rad)->FiuStang;
+				temp->infoUtil.model = (char*)malloc(sizeof(char) * (strlen(&(*rad)->infoUtil.model) +1));
+				strcpy(temp->infoUtil.model, strlen(&(*rad)->infoUtil.model));
+				temp->infoUtil.numeSofer = (char*)malloc(sizeof(char) * (strlen(&(*rad)->infoUtil.numeSofer) + 1));
+				strcpy(temp->infoUtil.numeSofer, strlen(&(*rad)->infoUtil.numeSofer));*/
+			else
+				if (&(*rad)->FiuDrept == NULL) {
+					Nod* t1= (*rad)->FiuStang; //shallow copy
+					free(rad);
+					return t1;
+				}
+				else
+				{
+					//nodul are doi fii
+
+				}
+				
+			return *rad;
+			
+
+		}
+}
+// FUNCTIE PENTRU AFISARE IN ORDINE
+
+
+void inOrdine(Nod* rad) {
+	if (rad !=NULL) {
+		inOrdine(rad->FiuStang);
+		printf("%d ", rad->infoUtil.id);
+		inOrdine(rad->FiuDrept);
+	}
+}
+//cautam nodul cu valoare minima din succesorulo drept
+Nod* minValueNod(Nod* nod){
+	Nod* curent = nod;
+	while (curent && curent->FiuStang != NULL)
+		curent = curent->FiuDrept;
+	return curent;
+}
 
 int main() {
 	Nod* radacina = citireArboreDeMasiniDinFisier("MasiniArbori.txt");
@@ -197,5 +253,7 @@ int main() {
 	printf("Avem  noduri:%d\n", nr);
 	float Pret = calculeazaPretTotal(radacina);
 	printf("Avem  noduri:%f\n", Pret);
+	Nod* rad = stergereNoddupaId(radacina, 4);
+	afisareMasiniDinArbore(rad);
 	return 0;
 }
